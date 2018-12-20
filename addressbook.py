@@ -1,1 +1,3 @@
-123
+__author__= 'grigoriy'
+
+print("Hello, World")
