@@ -19,6 +19,7 @@ class addressbook2(unittest.TestCase):
         wd.get("http://localhost/addressbook/")
 
     def login(self, wd, username, password):
+        wd.get("http://localhost/addressbook/")
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -27,11 +28,9 @@ class addressbook2(unittest.TestCase):
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_css_selector("input[type=\"submit\"]").click()
 
-    def open_groups_page(self, wd):
+    def group_creation(self, wd, group):
         # open groups page
         wd.find_element_by_link_text("groups").click()
-
-    def group_creation(self, wd, group):
         # init group creation
         wd.find_element_by_name("new").click()
         # fill group form
@@ -46,30 +45,22 @@ class addressbook2(unittest.TestCase):
         wd.find_element_by_name("group_footer").send_keys(group.groupfooter)
         # submit group creation
         wd.find_element_by_name("submit").click()
+        wd.find_element_by_link_text("group page").click()
 
     def test_add_group(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
-        self.open_groups_page(wd)
         self.group_creation(wd, Group(groupname="123", groupheader="123", groupfooter="123"))
-        self.return_to_group_page(wd)
         self.logout(wd)
 
     def test_add_empty_group(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
-        self.open_groups_page(wd)
         self.group_creation(wd, Group(groupname="", groupheader="", groupfooter=""))
-        self.return_to_group_page(wd)
         self.logout(wd)
 
     def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
-
-    def return_to_group_page(self, wd):
-        wd.find_element_by_link_text("group page").click()
 
     def tearDown(self):
         self.wd.quit()
