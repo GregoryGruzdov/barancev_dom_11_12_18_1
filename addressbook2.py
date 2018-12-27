@@ -15,11 +15,13 @@ class addressbook2(unittest.TestCase):
         self.wd = WebDriver()
         self.wd.implicitly_wait(60)
 
-    def open_home_page(self, wd):
+    def open_home_page(self):
+        wd = self.wd
         wd.get("http://localhost/addressbook/")
 
-    def login(self, wd, username, password):
-        wd.get("http://localhost/addressbook/")
+    def login(self, username, password):
+        wd = self.wd
+        self.open_home_page() 
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -28,7 +30,8 @@ class addressbook2(unittest.TestCase):
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_css_selector("input[type=\"submit\"]").click()
 
-    def group_creation(self, wd, group):
+    def group_creation(self, group):
+        wd = self.wd
         # open groups page
         wd.find_element_by_link_text("groups").click()
         # init group creation
@@ -47,20 +50,19 @@ class addressbook2(unittest.TestCase):
         wd.find_element_by_name("submit").click()
         wd.find_element_by_link_text("group page").click()
 
-    def test_add_group(self):
+    def logout(self):
         wd = self.wd
-        self.login(wd, username="admin", password="secret")
-        self.group_creation(wd, Group(groupname="123", groupheader="123", groupfooter="123"))
-        self.logout(wd)
+        wd.find_element_by_link_text("Logout").click()
+
+    def test_add_group(self):
+        self.login(username="admin", password="secret")
+        self.group_creation(Group(groupname="123", groupheader="123", groupfooter="123"))
+        self.logout()
 
     def test_add_empty_group(self):
-        wd = self.wd
-        self.login(wd, username="admin", password="secret")
-        self.group_creation(wd, Group(groupname="", groupheader="", groupfooter=""))
-        self.logout(wd)
-
-    def logout(self, wd):
-        wd.find_element_by_link_text("Logout").click()
+        self.login(username="admin", password="secret")
+        self.group_creation(Group(groupname="", groupheader="", groupfooter=""))
+        self.logout()
 
     def tearDown(self):
         self.wd.quit()
