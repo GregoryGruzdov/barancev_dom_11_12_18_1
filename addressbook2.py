@@ -15,12 +15,21 @@ class addressbook2(unittest.TestCase):
         self.wd = WebDriver()
         self.wd.implicitly_wait(60)
     
-    def test_addressbook2(self):
+    def test_add_group(self):
         wd = self.wd
         self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.open_groups_page(wd)
         self.group_creation(wd, groupname="123", groupheader="123", groupfooter="123")
+        self.return_to_group_page(wd)
+        self.logout(wd)
+
+    def test_add_empty_group(self):
+        wd = self.wd
+        self.open_home_page(wd)
+        self.login(wd, username="admin", password="secret")
+        self.open_groups_page(wd)
+        self.group_creation(wd, groupname="", groupheader="", groupfooter="")
         self.return_to_group_page(wd)
         self.logout(wd)
 
