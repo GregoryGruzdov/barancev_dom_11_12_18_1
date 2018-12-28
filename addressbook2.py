@@ -17,4 +17,4 @@ def test_add_group(app):
 def test_add_empty_group(app):
     app.login(username="admin", password="secret")
     app.group_creation(Group(groupname="", groupheader="", groupfooter=""))
-    n  app.logout()
+    app.logout()
