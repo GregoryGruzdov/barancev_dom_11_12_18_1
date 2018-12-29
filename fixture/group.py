@@ -21,4 +21,5 @@ class GroupHelper:
         wd.find_element_by_name("group_footer").send_keys(group.groupfooter)
         # submit group creation
         wd.find_element_by_name("submit").click()
+        # go back to groups page
         wd.find_element_by_link_text("group page").click()
