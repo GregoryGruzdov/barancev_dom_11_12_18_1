@@ -1,6 +1,6 @@
 class SessionHelper:
 
-    def __init__(self,app):
+    def __init__(self, app):
         self.app = app
 
     def login(self, username, password):
@@ -29,7 +29,7 @@ class SessionHelper:
 
     def is_logged_in_as(self, username):
         wd = self.app.wd
-        return len(wd.find_elements_by_xpath("//div/div[1]/form/b").text) == "("+username+")"
+        return wd.find_element_by_xpath("//div/div[1]/form/b").text == "("+username+")"
 
     def ensure_login(self, username, password):
         wd = self.app.wd
